@@ -1,10 +1,11 @@
-import React from "react";
+import { useDispatch } from "react-redux";
+import { addCollection, addedToast } from "../redux/featrures/collectionSlice";
 
 const ResultCard = ({ item }) => {
+  const dispatch = useDispatch();
   const addToCollection = (item) => {
-    const oldData = JSON.parse(localStorage.getItem('collection')) || [];
-    const newData = [...oldData, item];
-    localStorage.setItem('collection', JSON.stringify(newData));
+    dispatch(addCollection(item));
+    dispatch(addedToast());
   };
   return (
     <div className="w-[18vw] bg-zinc-900 rounded overflow-hidden">
@@ -46,16 +47,19 @@ const ResultCard = ({ item }) => {
       {item.type !== "gif" ? (
         <div className="p-3 flex items-center justify-between gap-2">
           <h1 className="text-white text-sm truncate flex-1">{item.title}</h1>
-          <button className="bg-indigo-600 text-white rounded px-4 py-2 cursor-pointer font-medium hover:bg-indigo-700 transition whitespace-nowrap">
+          <button
+            onClick={() => addToCollection(item)}
+            className="bg-indigo-600 text-white rounded px-4 py-2 cursor-pointer font-medium hover:bg-indigo-700 transition whitespace-nowrap"
+          >
             Save
           </button>
         </div>
       ) : (
         <div className="p-3 flex justify-end">
-          <button  onclick={()=>{
-            addToCollection(item)
-          }}
-          className="bg-indigo-600 text-white rounded px-4 py-2 cursor-pointer font-medium hover:bg-indigo-700 transition">
+          <button
+            onClick={() => addToCollection(item)}
+            className="bg-indigo-600 text-white rounded px-4 py-2 cursor-pointer font-medium hover:bg-indigo-700 transition"
+          >
             Save
           </button>
         </div>

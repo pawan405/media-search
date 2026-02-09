@@ -1,14 +1,16 @@
-
 import { Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <div>
       <div className="flex justify-center gap-4 mt-4">
-        <Link className="text-lg bg-(-c4) text-(-c1) rounded px-4 py-2" to="/">
+        <Link
+          className="text-lg bg-indigo-600 text-white rounded px-4 py-2 hover:bg-indigo-700 transition"
+          to="/"
+        >
           Search
         </Link>
         <Link
-          className="text-lg bg-(-c4) text-(-c1) rounded px-4 py-2"
+          className="text-lg bg-indigo-600 text-white rounded px-4 py-2 hover:bg-indigo-700 transition"
           to="/collection"
         >
           Collection
@@ -16,6 +18,6 @@ const NavBar = () => {
       </div>
     </div>
   );
-}
+};
 
-export default NavBar
+export default NavBar;

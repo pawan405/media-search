@@ -1,19 +1,60 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast, Bounce } from "react-toastify";
 
-export const counterSlice = createSlice({
-  name: "counter",
-  initialState: {
-    value: 0,
-  },
+const initialState = {
+  items: JSON.parse(localStorage.getItem("collection")) || [],
+};
+const collectionSlice = createSlice({
+  name: "collection",
+  initialState,
   reducers: {
-    increment: (state) => {
-      state.value += 1;
+    addCollection: (state, action) => {
+      const alreadyExists = state.items.find(
+        (item) => item.id === action.payload.id,
+      );
+      if (!alreadyExists) {
+        state.items.push(action.payload);
+        localStorage.setItem("collection", JSON.stringify(state.items));
+      }
     },
-    decrement: (state) => {
-      state.value -= 1;
+    removeCollection: (state, action) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
+      localStorage.setItem("collection", JSON.stringify(state.items));
+    },
+    clearCollection: (state) => {
+      state.items = [];
+      localStorage.setItem("collection", JSON.stringify(state.items));
+    },
+    addedToast: (state) => {
+      toast("Added to Collection", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        transition: Bounce,
+      });
+    },
+    removeToast: (state) => {
+      toast.error("succesfully removed form your collection", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     },
   },
 });
 
-export const { increment, decrement } = counterSlice.actions;
-export default counterSlice.reducer;
+export const { addCollection, removeCollection, clearCollection, addedToast ,removeToast} =
+  collectionSlice.actions;
+
+export default collectionSlice.reducer;
